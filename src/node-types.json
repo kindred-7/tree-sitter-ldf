@@ -1,0 +1,910 @@
+[
+  {
+    "type": "comment",
+    "named": true,
+    "extra": true,
+    "fields": {}
+  },
+  {
+    "type": "configurable_frames_attribute",
+    "named": true,
+    "fields": {
+      "frame": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "nad": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "diagnostic_signals_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "signal_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "event_triggered_frame",
+    "named": true,
+    "fields": {
+      "collision_table": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "frame": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "id": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "event_triggered_frames_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "event_triggered_frame",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fault_state_signals_attribute",
+    "named": true,
+    "fields": {
+      "signal": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "file_marker",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "frame_definition",
+    "named": true,
+    "fields": {
+      "id": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "size": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      },
+      "transmitter": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "signal_assignment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "frames_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "frame_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "general_description",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "free_text",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ldf_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "diagnostic_signals_block",
+          "named": true
+        },
+        {
+          "type": "event_triggered_frames_block",
+          "named": true
+        },
+        {
+          "type": "file_marker",
+          "named": true
+        },
+        {
+          "type": "frames_block",
+          "named": true
+        },
+        {
+          "type": "general_description",
+          "named": true
+        },
+        {
+          "type": "node_attributes_block",
+          "named": true
+        },
+        {
+          "type": "nodes_block",
+          "named": true
+        },
+        {
+          "type": "schedule_tables_block",
+          "named": true
+        },
+        {
+          "type": "signals_block",
+          "named": true
+        },
+        {
+          "type": "speed_declaration",
+          "named": true
+        },
+        {
+          "type": "sporadic_frames_block",
+          "named": true
+        },
+        {
+          "type": "status_management_block",
+          "named": true
+        },
+        {
+          "type": "version_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "lin_protocol_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "master_definition",
+    "named": true,
+    "fields": {
+      "jitter": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "num",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "time_base": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "num",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "nad_attribute",
+    "named": true,
+    "fields": {
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "node_attribute",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "configurable_frames_attribute",
+          "named": true
+        },
+        {
+          "type": "fault_state_signals_attribute",
+          "named": true
+        },
+        {
+          "type": "lin_protocol_attribute",
+          "named": true
+        },
+        {
+          "type": "nad_attribute",
+          "named": true
+        },
+        {
+          "type": "product_id_attribute",
+          "named": true
+        },
+        {
+          "type": "response_error_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "node_attributes_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "node_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nodes_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "master_definition",
+          "named": true
+        },
+        {
+          "type": "slaves_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "num",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "product_id_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "integer",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "response_error_attribute",
+    "named": true,
+    "fields": {
+      "signal": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "schedule_slot",
+    "named": true,
+    "fields": {
+      "delay": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "num",
+            "named": true
+          }
+        ]
+      },
+      "frame": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "schedule_table",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "schedule_slot",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "schedule_tables_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "schedule_table",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "signal_assignment",
+    "named": true,
+    "fields": {
+      "offset": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      },
+      "signal": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "signal_definition",
+    "named": true,
+    "fields": {
+      "init": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "publisher": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "receiver": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "size": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "signals_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "signal_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "slaves_definition",
+    "named": true,
+    "fields": {
+      "node": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "speed_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "num",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "sporadic_frame",
+    "named": true,
+    "fields": {
+      "frame": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "sporadic_frames_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "sporadic_frame",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "status_management_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "fault_state_signals_attribute",
+          "named": true
+        },
+        {
+          "type": "response_error_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "version_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "Diagnostic_signals",
+    "named": false
+  },
+  {
+    "type": "Event_triggered_frames",
+    "named": false
+  },
+  {
+    "type": "Frames",
+    "named": false
+  },
+  {
+    "type": "General_description",
+    "named": false
+  },
+  {
+    "type": "LIN_description_file",
+    "named": false
+  },
+  {
+    "type": "LIN_language_version",
+    "named": false
+  },
+  {
+    "type": "LIN_protocol",
+    "named": false
+  },
+  {
+    "type": "LIN_protocol_version",
+    "named": false
+  },
+  {
+    "type": "LIN_speed",
+    "named": false
+  },
+  {
+    "type": "Master",
+    "named": false
+  },
+  {
+    "type": "Node_attributes",
+    "named": false
+  },
+  {
+    "type": "Nodes",
+    "named": false
+  },
+  {
+    "type": "Schedule_tables",
+    "named": false
+  },
+  {
+    "type": "Signals",
+    "named": false
+  },
+  {
+    "type": "Slaves",
+    "named": false
+  },
+  {
+    "type": "Sporadic_frames",
+    "named": false
+  },
+  {
+    "type": "Status_management",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "configurable_frames",
+    "named": false
+  },
+  {
+    "type": "configured_NAD",
+    "named": false
+  },
+  {
+    "type": "fault_state_signals",
+    "named": false
+  },
+  {
+    "type": "float",
+    "named": true
+  },
+  {
+    "type": "free_text",
+    "named": true
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "initial_NAD",
+    "named": false
+  },
+  {
+    "type": "integer",
+    "named": true
+  },
+  {
+    "type": "kbps",
+    "named": false
+  },
+  {
+    "type": "ms",
+    "named": false
+  },
+  {
+    "type": "product_id",
+    "named": false
+  },
+  {
+    "type": "response_error",
+    "named": false
+  },
+  {
+    "type": "string",
+    "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]
