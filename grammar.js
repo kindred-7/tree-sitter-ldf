@@ -36,6 +36,8 @@ export default grammar({
       $.event_triggered_frames_block,
       $.node_attributes_block,
       $.schedule_tables_block,
+      $.signal_encoding_types_block,
+      $.signal_representation_block,
       $.status_management_block,
       $.general_description,
     )),
@@ -49,8 +51,8 @@ export default grammar({
     file_marker: $ => seq('LIN_description_file', ';'),
 
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
-    integer: $ => /0[xX][0-9a-fA-F]+|\d+/,
-    float: $ => /\d+\.\d+/,
+    integer: $ => /-?0[xX][0-9a-fA-F]+|-?\d+/,
+    float: $ => /-?\d+\.\d+/,
     string: $ => /"[^"]*"/,
     num: $ => choice($.float, $.integer),
 
@@ -137,6 +139,7 @@ export default grammar({
         $.lin_protocol_attribute,
         $.nad_attribute,
         $.product_id_attribute,
+        $.timed_attribute,
         $.response_error_attribute,
         $.fault_state_signals_attribute,
         $.configurable_frames_attribute,
@@ -153,6 +156,11 @@ export default grammar({
     product_id_attribute: $ => seq(
       'product_id', '=',
       $.integer, ',', $.integer, ',', $.integer, ';',
+    ),
+
+    timed_attribute: $ => seq(
+      choice('P2_min', 'ST_min', 'N_as_timeout', 'N_cr_timeout'),
+      '=', field('value', $.num), optional('ms'), ';',
     ),
 
     response_error_attribute: $ => seq(
@@ -181,8 +189,52 @@ export default grammar({
 
     schedule_slot: $ => seq(
       field('name', $.identifier),
-      field('delay', $.num), 'ms',
-      '[', field('frame', $.identifier), ']', ';',
+      'delay', field('delay', $.num), 'ms',
+      optional(seq('[', field('frame', $.identifier), ']')), ';',
+    ),
+
+    // Signal value encodings and their assignment to signals
+    signal_encoding_types_block: $ => seq(
+      'Signal_encoding_types', '{', repeat($.encoding_type), '}',
+    ),
+
+    encoding_type: $ => seq(
+      field('name', $.identifier),
+      '{', repeat(choice(
+        $.logical_value_entry,
+        $.physical_value_entry,
+        $.bcd_value_entry,
+        $.ascii_value_entry,
+      )), '}',
+    ),
+
+    logical_value_entry: $ => seq(
+      'logical_value', ',',
+      field('value', $.integer),
+      optional(seq(',', field('text', $.string))),
+      ';',
+    ),
+
+    physical_value_entry: $ => seq(
+      'physical_value', ',',
+      field('min', $.num), ',',
+      field('max', $.num), ',',
+      field('scale', $.num), ',',
+      field('offset', $.num),
+      optional(seq(',', field('text', $.string))),
+      ';',
+    ),
+
+    bcd_value_entry: $ => seq('bcd_value', ';'),
+    ascii_value_entry: $ => seq('ascii_value', ';'),
+
+    signal_representation_block: $ => seq(
+      'Signal_representation', '{', repeat($.signal_representation), '}',
+    ),
+
+    signal_representation: $ => seq(
+      field('encoding', $.identifier), ':',
+      commaSep(field('signal', $.identifier)), ';',
     ),
 
     // Status management

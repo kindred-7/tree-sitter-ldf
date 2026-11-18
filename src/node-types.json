@@ -1,5 +1,15 @@
 [
   {
+    "type": "ascii_value_entry",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "bcd_value_entry",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "comment",
     "named": true,
     "extra": true,
@@ -41,6 +51,44 @@
       "types": [
         {
           "type": "signal_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "encoding_type",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ascii_value_entry",
+          "named": true
+        },
+        {
+          "type": "bcd_value_entry",
+          "named": true
+        },
+        {
+          "type": "logical_value_entry",
+          "named": true
+        },
+        {
+          "type": "physical_value_entry",
           "named": true
         }
       ]
@@ -256,6 +304,14 @@
           "named": true
         },
         {
+          "type": "signal_encoding_types_block",
+          "named": true
+        },
+        {
+          "type": "signal_representation_block",
+          "named": true
+        },
+        {
           "type": "signals_block",
           "named": true
         },
@@ -291,6 +347,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "logical_value_entry",
+    "named": true,
+    "fields": {
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -387,6 +469,10 @@
         {
           "type": "response_error_attribute",
           "named": true
+        },
+        {
+          "type": "timed_attribute",
+          "named": true
         }
       ]
     }
@@ -445,6 +531,62 @@
     }
   },
   {
+    "type": "physical_value_entry",
+    "named": true,
+    "fields": {
+      "max": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "num",
+            "named": true
+          }
+        ]
+      },
+      "min": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "num",
+            "named": true
+          }
+        ]
+      },
+      "offset": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "num",
+            "named": true
+          }
+        ]
+      },
+      "scale": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "num",
+            "named": true
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "product_id_attribute",
     "named": true,
     "fields": {},
@@ -491,7 +633,7 @@
       },
       "frame": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
@@ -635,6 +777,62 @@
     }
   },
   {
+    "type": "signal_encoding_types_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "encoding_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "signal_representation",
+    "named": true,
+    "fields": {
+      "encoding": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "signal": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "signal_representation_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "signal_representation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "signals_block",
     "named": true,
     "fields": {},
@@ -741,6 +939,22 @@
     }
   },
   {
+    "type": "timed_attribute",
+    "named": true,
+    "fields": {
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "num",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "version_declaration",
     "named": true,
     "fields": {},
@@ -812,6 +1026,14 @@
     "named": false
   },
   {
+    "type": "N_as_timeout",
+    "named": false
+  },
+  {
+    "type": "N_cr_timeout",
+    "named": false
+  },
+  {
     "type": "Node_attributes",
     "named": false
   },
@@ -820,7 +1042,23 @@
     "named": false
   },
   {
+    "type": "P2_min",
+    "named": false
+  },
+  {
+    "type": "ST_min",
+    "named": false
+  },
+  {
     "type": "Schedule_tables",
+    "named": false
+  },
+  {
+    "type": "Signal_encoding_types",
+    "named": false
+  },
+  {
+    "type": "Signal_representation",
     "named": false
   },
   {
@@ -848,11 +1086,23 @@
     "named": false
   },
   {
+    "type": "ascii_value",
+    "named": false
+  },
+  {
+    "type": "bcd_value",
+    "named": false
+  },
+  {
     "type": "configurable_frames",
     "named": false
   },
   {
     "type": "configured_NAD",
+    "named": false
+  },
+  {
+    "type": "delay",
     "named": false
   },
   {
@@ -884,7 +1134,15 @@
     "named": false
   },
   {
+    "type": "logical_value",
+    "named": false
+  },
+  {
     "type": "ms",
+    "named": false
+  },
+  {
+    "type": "physical_value",
     "named": false
   },
   {
