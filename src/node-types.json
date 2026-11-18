@@ -10,6 +10,36 @@
     "fields": {}
   },
   {
+    "type": "byte_array_init",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "integer",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "channel_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "comment",
     "named": true,
     "extra": true,
@@ -42,6 +72,93 @@
     }
   },
   {
+    "type": "diagnostic_frame",
+    "named": true,
+    "fields": {
+      "id": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "signal_assignment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "diagnostic_frames_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "diagnostic_frame",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "diagnostic_signal_definition",
+    "named": true,
+    "fields": {
+      "init": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "size": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "diagnostic_signals_block",
     "named": true,
     "fields": {},
@@ -50,7 +167,7 @@
       "required": false,
       "types": [
         {
-          "type": "signal_definition",
+          "type": "diagnostic_signal_definition",
           "named": true
         }
       ]
@@ -202,7 +319,7 @@
       },
       "size": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "integer",
@@ -272,6 +389,14 @@
       "required": false,
       "types": [
         {
+          "type": "channel_declaration",
+          "named": true
+        },
+        {
+          "type": "diagnostic_frames_block",
+          "named": true
+        },
+        {
           "type": "diagnostic_signals_block",
           "named": true
         },
@@ -305,6 +430,10 @@
         },
         {
           "type": "signal_encoding_types_block",
+          "named": true
+        },
+        {
+          "type": "signal_groups_block",
           "named": true
         },
         {
@@ -342,6 +471,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "num",
+          "named": true
+        },
         {
           "type": "string",
           "named": true
@@ -618,6 +751,36 @@
     }
   },
   {
+    "type": "schedule_command",
+    "named": true,
+    "fields": {
+      "delay": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "num",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "schedule_slot",
     "named": true,
     "fields": {
@@ -672,6 +835,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "schedule_command",
+          "named": true
+        },
         {
           "type": "schedule_slot",
           "named": true
@@ -728,6 +895,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "byte_array_init",
+            "named": true
+          },
           {
             "type": "integer",
             "named": true
@@ -786,6 +957,57 @@
       "types": [
         {
           "type": "encoding_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "signal_group",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "size": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "signal_assignment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "signal_groups_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "signal_group",
           "named": true
         }
       ]
@@ -986,6 +1208,34 @@
     "named": false
   },
   {
+    "type": "AssignFrameId",
+    "named": false
+  },
+  {
+    "type": "AssignFrameIdRange",
+    "named": false
+  },
+  {
+    "type": "AssignNAD",
+    "named": false
+  },
+  {
+    "type": "Channel_name",
+    "named": false
+  },
+  {
+    "type": "ConditionalChangeNAD",
+    "named": false
+  },
+  {
+    "type": "DataDump",
+    "named": false
+  },
+  {
+    "type": "Diagnostic_frames",
+    "named": false
+  },
+  {
     "type": "Diagnostic_signals",
     "named": false
   },
@@ -995,6 +1245,10 @@
   },
   {
     "type": "Frames",
+    "named": false
+  },
+  {
+    "type": "FreeFormat",
     "named": false
   },
   {
@@ -1026,11 +1280,11 @@
     "named": false
   },
   {
-    "type": "N_as_timeout",
+    "type": "N_As_timeout",
     "named": false
   },
   {
-    "type": "N_cr_timeout",
+    "type": "N_Cr_timeout",
     "named": false
   },
   {
@@ -1050,11 +1304,19 @@
     "named": false
   },
   {
+    "type": "SaveConfiguration",
+    "named": false
+  },
+  {
     "type": "Schedule_tables",
     "named": false
   },
   {
     "type": "Signal_encoding_types",
+    "named": false
+  },
+  {
+    "type": "Signal_groups",
     "named": false
   },
   {

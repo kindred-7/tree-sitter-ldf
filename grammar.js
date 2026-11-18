@@ -27,11 +27,14 @@ export default grammar({
     ldf_file: $ => repeat(choice(
       $.file_marker,
       $.version_declaration,
+      $.channel_declaration,
       $.speed_declaration,
       $.nodes_block,
       $.signals_block,
       $.diagnostic_signals_block,
       $.frames_block,
+      $.diagnostic_frames_block,
+      $.signal_groups_block,
       $.sporadic_frames_block,
       $.event_triggered_frames_block,
       $.node_attributes_block,
@@ -61,6 +64,8 @@ export default grammar({
       '=', $.string, ';',
     ),
 
+    channel_declaration: $ => seq('Channel_name', '=', $.string, ';'),
+
     speed_declaration: $ => seq('LIN_speed', '=', $.num, 'kbps', ';'),
 
     // Nodes
@@ -85,16 +90,29 @@ export default grammar({
 
     // Signals
     signals_block: $ => seq('Signals', '{', repeat($.signal_definition), '}'),
-    diagnostic_signals_block: $ => seq('Diagnostic_signals', '{', repeat($.signal_definition), '}'),
+    diagnostic_signals_block: $ => seq(
+      'Diagnostic_signals', '{', repeat($.diagnostic_signal_definition), '}',
+    ),
+
+    // Diagnostic signals have no publisher or receivers.
+    diagnostic_signal_definition: $ => seq(
+      field('name', $.identifier), ':',
+      field('size', $.integer),
+      optional(seq(',', field('init', $.integer))),
+      ';',
+    ),
 
     signal_definition: $ => seq(
       field('name', $.identifier), ':',
       field('size', $.integer),
-      optional(seq(',', field('init', $.integer))),
+      optional(seq(',', field('init', choice($.integer, $.byte_array_init)))),
       ',', field('publisher', $.identifier),
       repeat(seq(',', field('receiver', $.identifier))),
       ';',
     ),
+
+    // Byte array signal values (LIN 2.2), e.g. {0x32, 32}
+    byte_array_init: $ => seq('{', commaSep($.integer), '}'),
 
     // Frames
     frames_block: $ => seq('Frames', '{', repeat($.frame_definition), '}'),
@@ -102,14 +120,37 @@ export default grammar({
     frame_definition: $ => seq(
       field('name', $.identifier), ':',
       field('id', $.integer), ',',
-      field('transmitter', $.identifier), ',',
-      field('size', $.integer),
+      field('transmitter', $.identifier),
+      // DLC is absent in LIN 1.3 files
+      optional(seq(',', field('size', $.integer))),
       '{', repeat($.signal_assignment), '}',
     ),
 
     signal_assignment: $ => seq(
       field('signal', $.identifier), ',',
       field('offset', $.integer), ';',
+    ),
+
+    // Master request / slave response frames
+    diagnostic_frames_block: $ => seq(
+      'Diagnostic_frames', '{', repeat($.diagnostic_frame), '}',
+    ),
+
+    diagnostic_frame: $ => seq(
+      field('name', $.identifier), ':',
+      field('id', $.integer),
+      '{', repeat($.signal_assignment), '}',
+    ),
+
+    // Signal groups (frame signal layout definition)
+    signal_groups_block: $ => seq(
+      'Signal_groups', '{', repeat($.signal_group), '}',
+    ),
+
+    signal_group: $ => seq(
+      field('name', $.identifier), ':',
+      field('size', $.integer),
+      '{', repeat($.signal_assignment), '}',
     ),
 
     sporadic_frames_block: $ => seq('Sporadic_frames', '{', repeat($.sporadic_frame), '}'),
@@ -124,10 +165,20 @@ export default grammar({
 
     event_triggered_frame: $ => seq(
       field('name', $.identifier), ':',
-      field('id', $.integer), ',',
-      field('collision_table', $.identifier),
-      '{', commaSep(field('frame', $.identifier)), optional(';'), '}',
-      optional(';'),
+      choice(
+        seq(
+          field('id', $.integer), ',',
+          field('collision_table', $.identifier),
+          '{', commaSep(field('frame', $.identifier)), optional(';'), '}',
+          optional(';'),
+        ),
+        // tool form: collision resolver table first, flat frame list
+        seq(
+          field('collision_table', $.identifier), ',',
+          field('id', $.integer), ',',
+          commaSep(field('frame', $.identifier)), ';',
+        ),
+      ),
     ),
 
     // Node attributes
@@ -146,7 +197,9 @@ export default grammar({
       )), '}',
     ),
 
-    lin_protocol_attribute: $ => seq('LIN_protocol', '=', $.string, ';'),
+    lin_protocol_attribute: $ => seq(
+      'LIN_protocol', '=', choice($.string, $.num), ';',
+    ),
 
     nad_attribute: $ => seq(
       choice('configured_NAD', 'initial_NAD'),
@@ -155,11 +208,14 @@ export default grammar({
 
     product_id_attribute: $ => seq(
       'product_id', '=',
-      $.integer, ',', $.integer, ',', $.integer, ';',
+      $.integer, ',', $.integer,
+      // LIN 2.0 files omit the variant
+      optional(seq(',', $.integer)),
+      ';',
     ),
 
     timed_attribute: $ => seq(
-      choice('P2_min', 'ST_min', 'N_as_timeout', 'N_cr_timeout'),
+      choice('P2_min', 'ST_min', 'N_As_timeout', 'N_Cr_timeout'),
       '=', field('value', $.num), optional('ms'), ';',
     ),
 
@@ -175,7 +231,11 @@ export default grammar({
 
     configurable_frames_attribute: $ => seq(
       'configurable_frames', '{',
-      repeat(seq(field('frame', $.identifier), '=', field('nad', $.integer), ';')),
+      repeat(seq(
+        field('frame', $.identifier),
+        optional(seq('=', field('nad', $.integer))),
+        ';',
+      )),
       '}',
     ),
 
@@ -184,7 +244,18 @@ export default grammar({
 
     schedule_table: $ => seq(
       field('name', $.identifier),
-      '{', repeat($.schedule_slot), '}',
+      '{', repeat(choice($.schedule_slot, $.schedule_command)), '}',
+    ),
+
+    // Command entries, e.g. AssignNAD {LSM} delay 15 ms;
+    schedule_command: $ => seq(
+      choice(
+        'AssignNAD', 'AssignFrameId', 'AssignFrameIdRange',
+        'ConditionalChangeNAD', 'DataDump', 'SaveConfiguration',
+        'FreeFormat',
+      ),
+      '{', commaSep(choice($.identifier, $.integer)), optional(';'), '}',
+      'delay', field('delay', $.num), 'ms', ';',
     ),
 
     schedule_slot: $ => seq(
